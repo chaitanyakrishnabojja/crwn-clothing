@@ -42,12 +42,14 @@ export const getCategoriesAndDocuments = async () => {
     const collectionRef = collection(db, 'categories');
     const q = query(collectionRef);
     const queryShapshot = await getDocs(q);
-    const categoryMap = queryShapshot.docs.reduce((acc, docShapshot) => {
-        const { title, items } = docShapshot.data();
-        acc[title.toLowerCase()] = items;
-        return acc;
-    }, {});
-    return categoryMap;
+    return queryShapshot.docs.map((docShapshot) => docShapshot.data());
+    
+    // .reduce((acc, docShapshot) => {
+    //     const { title, items } = docShapshot.data();
+    //     acc[title.toLowerCase()] = items;
+    //     return acc;
+    // }, {});
+    // return categoryMap;
 };
 
 export const createUserDocumentFromAuth = async (userAuth, additionalInformation = {}) => {
